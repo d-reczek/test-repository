@@ -107,7 +107,8 @@ const BookView = ({ data, setData, error, errorMessage }) => {
     setFavorites(newFavorites);
     setFavoritesList(array);
   }
-  console.log("listt", favoritesList);
+  console.log("list1", favoritesList);
+  console.log("list2", favorites);
   return (
     <BooksContainer>
       {Array.isArray(data) &&
@@ -187,14 +188,14 @@ const BookView = ({ data, setData, error, errorMessage }) => {
                           )
                       )}
                       {favoritesList.map(
-                        (item, i) =>
-                          book.id === item.id &&
-                          item.favorite && (
+                        (item2, i) =>
+                          book.id === item2.id &&
+                          item2.favorite && (
                             <FavouriteBook
-                              key={item.id}
-                              add={item.favorite}
+                              key={item2.id}
+                              add={item2.favorite}
                               handleClick={() => {
-                                handleDelete(item.id);
+                                handleDelete(item2.id);
                               }}
                             />
                           )
