@@ -85,23 +85,26 @@ const BookView = ({ data, setData, error, errorMessage }) => {
     const newFavorites = favorites.map((item) => {
       return item.id === id ? { ...item, favorite: !item.favorite } : item;
     });
-    // const newFavorites2 = favorites.filter((item) => {
-    //   return [{ id: id, favorite: true }];
 
-    //   return item.id === id ? { id: item.id, favorite: !item.favorite } : item;
-    // });
     let array = [];
     let object = { id: id, favorite: true };
     array = [...favoritesList, object];
-    // const newObject = { id: id, favorite: true };
-    // array.push(newObject);
-    // return item.id === id
-    //   ? { bookId: item.id, favorite: !item.favorite }
-    //   : item;
-    // });
 
     setFavorites(newFavorites);
     // setFavoritesList([{ id: 1342, favorite: true }]);
+    setFavoritesList(array);
+    // setFavoritesList(array2);
+  }
+
+  function handleDelete(id) {
+    const newFavorites = favorites.map((item) => {
+      return item.id === id ? { ...item, favorite: !item.favorite } : item;
+    });
+    let array = favoritesList.filter((item) => {
+      return item.id !== id;
+    });
+
+    setFavorites(newFavorites);
     setFavoritesList(array);
   }
   console.log("listt", favoritesList);
@@ -191,7 +194,7 @@ const BookView = ({ data, setData, error, errorMessage }) => {
                               key={item.id}
                               add={item.favorite}
                               handleClick={() => {
-                                handleFavorite(item.id);
+                                handleDelete(item.id);
                               }}
                             />
                           )
