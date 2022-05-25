@@ -82,17 +82,19 @@ const BookView = ({ data, setData, error, errorMessage }) => {
   }
 
   function handleFavorite(id) {
+    let test = false;
     const newFavorites = favorites.map((item) => {
       return item.id === id ? { ...item, favorite: !item.favorite } : item;
     });
-
     let array = [];
-    let object = { id: id, favorite: true };
-    array = [...favoritesList, object];
+    if (test) {
+      let object = { id: id, favorite: true };
+      array = [...favoritesList, object];
+    }
+    setFavoritesList(array);
 
     setFavorites(newFavorites);
     // setFavoritesList([{ id: 1342, favorite: true }]);
-    setFavoritesList(array);
     // setFavoritesList(array2);
   }
 
@@ -107,6 +109,8 @@ const BookView = ({ data, setData, error, errorMessage }) => {
     setFavorites(newFavorites);
     setFavoritesList(array);
   }
+  const favoritesList2 = [{ id: 1342, favorite: true }];
+
   console.log("list1", favoritesList);
   console.log("list2", favorites);
   return (
@@ -176,8 +180,7 @@ const BookView = ({ data, setData, error, errorMessage }) => {
                       )}
                       {favorites.map(
                         (item, i) =>
-                          book.id === item.id &&
-                          !item.favorite && (
+                          book.id === item.id && (
                             <FavouriteBook
                               key={item.id}
                               add={false}
