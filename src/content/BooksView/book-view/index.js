@@ -13,7 +13,7 @@ const Img = materialUIStyled("img")({
   margin: "0px",
   display: "block",
   maxWidth: "150px",
-  maxHeight: "200px",
+  maxHeight: "200px"
 });
 const MainStyles = styled.div`
   display: flex;
@@ -58,6 +58,7 @@ const ButtonsContainer = styled(MainStyles)`
 
 const BookView = ({ data, setData, error, errorMessage }) => {
   const [favorites, setFavorites] = useState([]);
+  const [favoritesList, setFavoritesList] = useState([]);
 
   useEffect(() => {
     setFavorites(data);
@@ -81,33 +82,52 @@ const BookView = ({ data, setData, error, errorMessage }) => {
   }
 
   function handleFavorite(id) {
-    const newFavorites = favorites.map(item => {
+    const newFavorites = favorites.map((item) => {
       return item.id === id ? { ...item, favorite: !item.favorite } : item;
     });
+    // const newFavorites2 = favorites.filter((item) => {
+    //   return [{ id: id, favorite: true }];
+
+    //   return item.id === id ? { id: item.id, favorite: !item.favorite } : item;
+    // });
+    let array = [];
+    let object = { id: id, favorite: true };
+    array = [...favoritesList, object];
+    // const newObject = { id: id, favorite: true };
+    // array.push(newObject);
+    // return item.id === id
+    //   ? { bookId: item.id, favorite: !item.favorite }
+    //   : item;
+    // });
 
     setFavorites(newFavorites);
+    // setFavoritesList([{ id: 1342, favorite: true }]);
+    setFavoritesList(array);
   }
+  console.log("listt", favoritesList);
   return (
     <BooksContainer>
       {Array.isArray(data) &&
         data.map(
-          book =>
+          (book) =>
             book.type === "Text" && (
               <Grow key={book.id} in timeout={500}>
                 <Paper
                   sx={{
                     p: 2,
-                    width: "450px",
-                  }}>
+                    width: "450px"
+                  }}
+                >
                   <BookContainer>
                     <BookInfoContainer>
                       {book.resources.map(
-                        item =>
+                        (item) =>
                           item.type === "image/jpeg" &&
                           item.uri.includes("medium") && (
                             <Link
                               target="blank"
-                              href={`https://www.gutenberg.org/ebooks/${book.id}`}>
+                              href={`https://www.gutenberg.org/ebooks/${book.id}`}
+                            >
                               <Img
                                 key={item.id}
                                 alt="book-cover"
@@ -125,7 +145,7 @@ const BookView = ({ data, setData, error, errorMessage }) => {
                         <BookInfoParagraph>Author:</BookInfoParagraph>
 
                         {book.agents.map(
-                          item =>
+                          (item) =>
                             item.type === "Author" && (
                               <BookTitleName key={item.id}>
                                 {item.person}
@@ -136,14 +156,15 @@ const BookView = ({ data, setData, error, errorMessage }) => {
                     </BookInfoContainer>
                     <ButtonsContainer>
                       {book.resources.map(
-                        item =>
+                        (item) =>
                           item.type.includes("text/html") &&
                           item.uri.includes(".htm") && (
                             <Button key={item.id} variant="outlined">
                               <Link
                                 underline="none"
                                 target="blank"
-                                href={item.uri}>
+                                href={item.uri}
+                              >
                                 QUICK READ BOOK
                               </Link>
                             </Button>
@@ -151,7 +172,21 @@ const BookView = ({ data, setData, error, errorMessage }) => {
                       )}
                       {favorites.map(
                         (item, i) =>
-                          book.id === item.id && (
+                          book.id === item.id &&
+                          !item.favorite && (
+                            <FavouriteBook
+                              key={item.id}
+                              add={false}
+                              handleClick={() => {
+                                handleFavorite(item.id);
+                              }}
+                            />
+                          )
+                      )}
+                      {favoritesList.map(
+                        (item, i) =>
+                          book.id === item.id &&
+                          item.favorite && (
                             <FavouriteBook
                               key={item.id}
                               add={item.favorite}
