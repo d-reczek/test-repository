@@ -14,7 +14,7 @@ const Img = materialUIStyled("img")({
   margin: "0px",
   display: "block",
   maxWidth: "150px",
-  maxHeight: "200px",
+  maxHeight: "200px"
 });
 const MainStyles = styled.div`
   display: flex;
@@ -95,7 +95,8 @@ const BookView = ({ data, error, errorMessage }) => {
   }
 
   function handleFavorite(id) {
-    const newFavorites = favorites.map(item => {
+    let test = false;
+    const newFavorites = favorites.map((item) => {
       return item.id === id ? { ...item, favorite: !item.favorite } : item;
     });
     let array = [];
@@ -104,6 +105,7 @@ const BookView = ({ data, error, errorMessage }) => {
     setFavoritesList(array);
 
     setFavorites(newFavorites);
+    setFavoritesList(array);
   }
 
   function handleDelete(id) {
@@ -122,18 +124,19 @@ const BookView = ({ data, error, errorMessage }) => {
     <BooksContainer>
       {Array.isArray(data) &&
         data.map(
-          book =>
+          (book) =>
             book.type === "Text" && (
               <Grow key={book.id} in timeout={500}>
                 <Paper
                   sx={{
                     p: 2,
-                    width: "450px",
-                  }}>
+                    width: "450px"
+                  }}
+                >
                   <BookContainer>
                     <BookInfoContainer>
                       {book.resources.map(
-                        item =>
+                        (item) =>
                           item.type === "image/jpeg" &&
                           item.uri.includes("medium") && (
                             <Tooltip
@@ -158,7 +161,7 @@ const BookView = ({ data, error, errorMessage }) => {
                         <BookInfoParagraph>Author:</BookInfoParagraph>
 
                         {book.agents.map(
-                          item =>
+                          (item) =>
                             item.type === "Author" && (
                               <BookTitleName key={item.id}>
                                 {item.person}
